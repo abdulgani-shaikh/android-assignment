@@ -18,13 +18,14 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.shaikhabdulgani.moviedb.R
+import com.shaikhabdulgani.moviedb.BuildConfig
 
 @Composable
 fun AsyncImage(modifier: Modifier = Modifier, imageUrl: String, placeholder: String) {
     val context = LocalContext.current
     val imagePainter = rememberAsyncImagePainter(
         ImageRequest.Builder(context)
-            .data("${""}${imageUrl}")
+            .data("${BuildConfig.BASE_IMAGE_URL}${imageUrl}")
             .size(Size.ORIGINAL)
             .build()
     )

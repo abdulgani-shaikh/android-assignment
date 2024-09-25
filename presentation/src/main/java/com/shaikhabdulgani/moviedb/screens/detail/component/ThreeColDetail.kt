@@ -15,14 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.shaikhabdulgani.moviedb.screens.detail.DetailScreenData
+import com.shaikhabdulgani.domain.model.MovieDetail
+import com.shaikhabdulgani.moviedb.R
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
+import com.shaikhabdulgani.moviedb.util.getYear
 
 @Composable
 fun ThreeColDetail(
     modifier: Modifier = Modifier,
-    movie: DetailScreenData
+    movie: MovieDetail
 ) {
     val spacing = LocalSpacing.current
     Row(
@@ -36,7 +39,7 @@ fun ThreeColDetail(
     ) {
         TextWithStartIcon(
             imageVector = Icons.Outlined.DateRange,
-            text = movie.releaseDate
+            text = movie.releaseDate.getYear()
         )
         Spacer(
             modifier = Modifier
@@ -48,7 +51,7 @@ fun ThreeColDetail(
         )
         TextWithStartIcon(
             imageVector = Icons.Filled.PlayArrow,
-            text = movie.runtime
+            text = stringResource(R.string.mins_args, movie.runtime)
         )
         Spacer(
             modifier = Modifier
@@ -60,7 +63,7 @@ fun ThreeColDetail(
         )
         TextWithStartIcon(
             imageVector = Icons.Filled.Info,
-            text = if (movie.categories.isNotEmpty()) movie.categories[0] else ""
+            text = if (movie.category.isNotEmpty()) movie.category[0] else ""
         )
     }
 }

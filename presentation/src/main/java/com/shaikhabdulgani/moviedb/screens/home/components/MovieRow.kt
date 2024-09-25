@@ -30,12 +30,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.shaikhabdulgani.domain.model.Movie
+import com.shaikhabdulgani.moviedb.BuildConfig
 import com.shaikhabdulgani.moviedb.R
 import com.shaikhabdulgani.moviedb.screens.components.SectionWithTitle
 import com.shaikhabdulgani.moviedb.ui.theme.sizing
@@ -105,7 +106,7 @@ private fun MovieItemCard(
     val context = LocalContext.current
     val image = rememberAsyncImagePainter(
         ImageRequest.Builder(context)
-            .data("${""}${item.imageUrl}")
+            .data("${BuildConfig.BASE_IMAGE_URL}${item.posterPath}")
             .size(Size.ORIGINAL)
             .build()
     )
@@ -119,7 +120,7 @@ private fun MovieItemCard(
             },
         contentAlignment = Alignment.Center
     ) {
-        if (item.imageUrl.isBlank()) {
+        if (item.posterPath.isBlank()) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()

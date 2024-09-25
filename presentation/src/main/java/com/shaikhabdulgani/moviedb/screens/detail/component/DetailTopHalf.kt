@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.moviedb.R
 import com.shaikhabdulgani.moviedb.screens.components.AsyncImage
-import com.shaikhabdulgani.moviedb.screens.detail.DetailScreenData
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSizing
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
 import com.shaikhabdulgani.moviedb.util.noRippleClickable
@@ -34,7 +34,7 @@ import com.shaikhabdulgani.moviedb.util.noRippleClickable
 @Composable
 fun DetailTopHalf(
     modifier: Modifier = Modifier,
-    movie: DetailScreenData,
+    movie: MovieDetail,
     onBackClick: () -> Unit,
 ) {
     val spacing = LocalSpacing.current
@@ -44,8 +44,8 @@ fun DetailTopHalf(
     ) {
         AsyncImage(
             modifier = Modifier.matchParentSize(),
-            imageUrl = movie.backdropUrl,
-            placeholder = movie.backdropUrl
+            imageUrl = movie.backdropPath,
+            placeholder = movie.backdropPath
         )
         Row(
             modifier = Modifier
@@ -91,12 +91,12 @@ fun DetailTopHalf(
             ) {
                 AsyncImage(
                     modifier = Modifier.fillMaxSize(),
-                    imageUrl = movie.posterUrl,
-                    placeholder = movie.posterUrl
+                    imageUrl = movie.posterPath,
+                    placeholder = movie.posterPath
                 )
             }
             Text(
-                text = movie.movieName,
+                text = movie.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )

@@ -61,3 +61,11 @@ fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
         onClick()
     }
 }
+
+fun String.getYear(): String {
+    if (length > 4) {
+        return substring(0, 4)
+    } else {
+        return "NA"
+    }
+}

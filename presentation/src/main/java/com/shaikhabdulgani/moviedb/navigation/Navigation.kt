@@ -13,7 +13,9 @@ fun AppNavigation() {
     val controller = rememberNavController()
     NavHost(navController = controller, startDestination = Screens.Home) {
         composable<Screens.Home> {
-            HomeScreen(controller)
+            HomeScreen(
+                controller = controller
+            )
         }
         composable<Screens.Detail> {
             val screen = it.toRoute<Screens.Detail>()

@@ -10,14 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.moviedb.R
-import com.shaikhabdulgani.moviedb.screens.detail.DetailScreenData
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
 import com.shaikhabdulgani.moviedb.ui.theme.spacing
 
 @Composable
 fun MovieCategoryRow(
-    movie: DetailScreenData
+    movie: MovieDetail
 ) {
     val spacing = LocalSpacing.current
     Column(
@@ -29,7 +29,7 @@ fun MovieCategoryRow(
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.defaultSmall)
         ) {
-            items(movie.categories) {
+            items(movie.category) {
                 CategoryChip(text = it)
             }
         }

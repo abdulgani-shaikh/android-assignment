@@ -9,6 +9,6 @@ sealed interface Screens {
     data object Home : Screens
 
     @Serializable
-    data class Detail(val id: String) : Screens
+    data class Detail(val id: Int) : Screens
 
 }

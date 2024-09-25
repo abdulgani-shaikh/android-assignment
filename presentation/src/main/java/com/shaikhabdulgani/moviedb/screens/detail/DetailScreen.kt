@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER")
-
 package com.shaikhabdulgani.moviedb.screens.detail
 
 import androidx.compose.foundation.background
@@ -13,15 +11,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.moviedb.screens.detail.component.DetailTopHalf
 import com.shaikhabdulgani.moviedb.screens.detail.component.MovieCategoryRow
 import com.shaikhabdulgani.moviedb.screens.detail.component.ThreeColDetail
@@ -29,11 +29,17 @@ import com.shaikhabdulgani.moviedb.ui.theme.LocalSizing
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
 
 @Composable
-fun DetailScreen(controller: NavHostController, id: String) {
+fun DetailScreen(
+    controller: NavHostController,
+    id: Int,
+    viewModel: DetailScreenViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
     val sizing = LocalSizing.current
     val spacing = LocalSpacing.current
-    val movie by remember {
-        mutableStateOf(dummyDetailData)
+    val movie = viewModel.movies.collectAsStateWithLifecycle()
+    LaunchedEffect(context, id) {
+        viewModel.getMovie(id)
     }
     Column(
         modifier = Modifier
@@ -46,7 +52,7 @@ fun DetailScreen(controller: NavHostController, id: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(sizing.backDropHeight),
-            movie = movie,
+            movie = movie.value,
             onBackClick = {
                 controller.navigateUp()
             }
@@ -55,40 +61,31 @@ fun DetailScreen(controller: NavHostController, id: String) {
         ThreeColDetail(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            movie = movie
+            movie = movie.value
         )
 
         Text(
-            text = movie.description,
+            text = movie.value.description,
             modifier = Modifier.padding(horizontal = spacing.default)
         )
 
-        MovieCategoryRow(movie)
+        MovieCategoryRow(movie.value)
     }
 }
 
-data class DetailScreenData(
-    val movieName: String,
-    val posterUrl: String,
-    val backdropUrl: String,
-    val releaseDate: String,
-    val runtime: String,
-    val categories: List<String>,
-    val description: String,
-)
-
-val dummyDetailData = DetailScreenData(
-    movieName = "Tere Naam",
-    posterUrl = "",
-    backdropUrl = "",
-    releaseDate = "2003",
-    runtime = "132 mins",
-    categories = listOf("Drama", "Romance", "Action", "Tragedy"),
-    description = "Radhe, a rowdy boy, falls in love with Nirjara, a first year college student. After initial hatred, when Nirjara reciprocates his love, a brutal attack renders him mentally unstable."
+val dummyDetailData = MovieDetail(
+    id = 0,
+    name = "",
+    posterPath = "",
+    backdropPath = "",
+    releaseDate = "",
+    runtime = "",
+    category = emptyList(),
+    description = ""
 )
 
 @Preview
 @Composable
 private fun DetailScreenPrev() {
-    DetailScreen(controller = rememberNavController(), id = "")
+    DetailScreen(controller = rememberNavController(), id = 0)
 }
