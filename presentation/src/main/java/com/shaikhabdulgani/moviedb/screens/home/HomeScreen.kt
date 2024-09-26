@@ -2,33 +2,32 @@ package com.shaikhabdulgani.moviedb.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.shaikhabdulgani.domain.model.Movie
-import com.shaikhabdulgani.moviedb.R
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.shaikhabdulgani.moviedb.navigation.Screens
+import com.shaikhabdulgani.moviedb.screens.home.components.ErrorMessage
+import com.shaikhabdulgani.moviedb.screens.home.components.HomeTopBar
 import com.shaikhabdulgani.moviedb.screens.home.components.MovieItemCard
+import com.shaikhabdulgani.moviedb.screens.home.components.PageLoading
 import com.shaikhabdulgani.moviedb.ui.theme.spacing
+
 
 @Composable
 fun HomeScreen(
@@ -40,69 +39,56 @@ fun HomeScreen(
             HomeTopBar()
         }
     ) { paddingValues ->
-//        Column(
-//            modifier = Modifier.padding(paddingValues)
-//        ) {
-//            MediaRow(title = "Latest", movies = emptyList()) { movie ->
-//                controller.navigate(Screens.Detail(movie.id))
-//            }
-//            MediaRow(title = "Upcoming", movies = emptyList()) { movie ->
-//                controller.navigate(Screens.Detail(movie.id))
-//            }
-//        }
-        val movieList = viewModel.movies.collectAsStateWithLifecycle()
-        HomeMovieList(
+        val movieList = viewModel.moviesState.collectAsLazyPagingItems()
+        Column(
             modifier = Modifier
+                .background(Color.White)
                 .padding(paddingValues)
-                .fillMaxWidth(),
-            list = movieList.value,
-            onLastReached = {},
-            onItemClick = { movie ->
-                controller.navigate(Screens.Detail(movie.id))
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default)
+        ) {
+            LazyVerticalStaggeredGrid(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalItemSpacing = MaterialTheme.spacing.default,
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
+                columns = StaggeredGridCells.Fixed(2),
+                contentPadding = PaddingValues(MaterialTheme.spacing.default)
+            ) {
+                items(movieList.itemCount) {
+                    MovieItemCard(movieList[it]!!) { movie ->
+                        controller.navigate(Screens.Detail(movie.id))
+                    }
+                }
             }
-        )
-    }
-}
+            movieList.apply {
+                when {
+                    loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading -> {
+                        PageLoading(modifier = Modifier.fillMaxWidth())
+                    }
 
+                    loadState.refresh is LoadState.Error -> {
+                        val error = movieList.loadState.refresh as LoadState.Error
+                        ErrorMessage(
+                            modifier = Modifier.fillMaxWidth(),
+                            message = error.error.localizedMessage!!,
+                            onClickRetry = { retry() }
+                        )
+                    }
 
-@Composable
-private fun HomeMovieList(
-    modifier: Modifier = Modifier,
-    list: List<Movie>,
-    onLastReached: () -> Unit,
-    onItemClick: (Movie) -> Unit
-) {
-    LazyVerticalStaggeredGrid(
-        modifier = modifier,
-//        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
-        verticalItemSpacing = MaterialTheme.spacing.default,
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
-//        columns = GridCells.Fixed(2),
-        columns = StaggeredGridCells.Fixed(2),
-        contentPadding = PaddingValues(MaterialTheme.spacing.default)
-    ) {
-        itemsIndexed(list) { index, movie ->
-            if (index == list.size - 1) {
-                onLastReached.invoke()
+                    loadState.append is LoadState.Error -> {
+                        val error = movieList.loadState.append as LoadState.Error
+                        ErrorMessage(
+                            modifier = Modifier.fillMaxWidth(),
+                            message = error.error.localizedMessage!!,
+                            onClickRetry = { retry() }
+                        )
+                    }
+                }
             }
-            MovieItemCard(movie, onItemClick)
         }
     }
-}
-
-@Composable
-fun HomeTopBar() {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(MaterialTheme.spacing.zero)
-            .background(Color.White)
-            .padding(MaterialTheme.spacing.default),
-        text = stringResource(id = R.string.app_name),
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
-        textAlign = TextAlign.Center
-    )
 }
 
 @Preview

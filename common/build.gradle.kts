@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.shaikhabdulgani.domain"
+    namespace = "com.shaikhabdulgani.common"
     compileSdk = 34
 
     defaultConfig {
@@ -36,6 +36,8 @@ android {
 
 dependencies {
 
+    api(project(":data"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,8 +51,4 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     kapt(libs.hilt.compiler)
-
-    //paging3
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
 }

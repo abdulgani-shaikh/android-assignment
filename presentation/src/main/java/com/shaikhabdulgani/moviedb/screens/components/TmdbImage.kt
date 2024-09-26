@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
@@ -13,15 +14,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
-import com.shaikhabdulgani.moviedb.R
 import com.shaikhabdulgani.moviedb.BuildConfig
+import com.shaikhabdulgani.moviedb.R
 
 @Composable
-fun AsyncImage(modifier: Modifier = Modifier, imageUrl: String, placeholder: String) {
+fun TmdbImage(modifier: Modifier = Modifier, imageUrl: String, placeholder: String) {
     val context = LocalContext.current
     val imagePainter = rememberAsyncImagePainter(
         ImageRequest.Builder(context)
@@ -73,4 +76,37 @@ fun AsyncImage(modifier: Modifier = Modifier, imageUrl: String, placeholder: Str
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun TmdbImageValidPath() {
+    val imagePath = "/58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg"
+    TmdbImage(
+        modifier = Modifier.size(100.dp),
+        imageUrl = imagePath,
+        placeholder = imagePath
+    )
+}
+
+@Preview
+@Composable
+private fun TmdbImageInvalidPath() {
+    val imagePath = "/58QT4cPJ2u2TqWZkterDq9q4yjpg"
+    TmdbImage(
+        modifier = Modifier.size(100.dp),
+        imageUrl = imagePath,
+        placeholder = imagePath
+    )
+}
+
+@Preview
+@Composable
+private fun TmdbImageEmptyPath() {
+    val imagePath = ""
+    TmdbImage(
+        modifier = Modifier.size(100.dp),
+        imageUrl = imagePath,
+        placeholder = imagePath
+    )
 }

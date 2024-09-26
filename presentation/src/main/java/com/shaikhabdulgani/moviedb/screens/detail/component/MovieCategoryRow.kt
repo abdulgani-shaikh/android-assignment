@@ -2,7 +2,6 @@ package com.shaikhabdulgani.moviedb.screens.detail.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -10,28 +9,34 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.shaikhabdulgani.domain.model.MovieDetail
+import androidx.compose.ui.tooling.preview.Preview
 import com.shaikhabdulgani.moviedb.R
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
 import com.shaikhabdulgani.moviedb.ui.theme.spacing
 
 @Composable
 fun MovieCategoryRow(
-    movie: MovieDetail
+    modifier: Modifier = Modifier,
+    category: List<String>
 ) {
     val spacing = LocalSpacing.current
     Column(
-        modifier = Modifier
-            .padding(horizontal = spacing.default),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(spacing.defaultSmall)
     ) {
         Text(text = stringResource(R.string.category_s))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.defaultSmall)
         ) {
-            items(movie.category) {
+            items(category) {
                 CategoryChip(text = it)
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun MovieCategoryRowPrev() {
+    MovieCategoryRow(category = listOf("Horror","Comedy"))
 }

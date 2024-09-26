@@ -19,7 +19,12 @@ fun AppNavigation() {
         }
         composable<Screens.Detail> {
             val screen = it.toRoute<Screens.Detail>()
-            DetailScreen(controller, screen.id)
+            DetailScreen(
+                onBackClick = {
+                    controller.navigateUp()
+                },
+                screen.id
+            )
         }
     }
 }

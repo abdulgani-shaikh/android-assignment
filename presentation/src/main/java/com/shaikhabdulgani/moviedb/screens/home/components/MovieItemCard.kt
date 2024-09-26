@@ -14,12 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.shaikhabdulgani.domain.model.Movie
-import com.shaikhabdulgani.moviedb.screens.components.AsyncImage
+import com.shaikhabdulgani.moviedb.screens.components.TmdbImage
 import com.shaikhabdulgani.moviedb.ui.theme.sizing
 import com.shaikhabdulgani.moviedb.ui.theme.spacing
+import com.shaikhabdulgani.moviedb.util.dummyMovie
 
 
 @Composable
@@ -36,7 +39,7 @@ fun MovieItemCard(movie: Movie, onItemClick: (Movie) -> Unit) {
         )
     ) {
         Column {
-            AsyncImage(
+            TmdbImage(
                 modifier = Modifier
                     .height(MaterialTheme.sizing.posterHeight)
                     .fillMaxWidth(),
@@ -50,6 +53,9 @@ fun MovieItemCard(movie: Movie, onItemClick: (Movie) -> Unit) {
                 text = movie.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -60,5 +66,3 @@ fun MovieItemCard(movie: Movie, onItemClick: (Movie) -> Unit) {
 private fun MovieItemPrev() {
     MovieItemCard(movie = dummyMovie) { }
 }
-
-val dummyMovie = Movie(1, "Movie Name", "")

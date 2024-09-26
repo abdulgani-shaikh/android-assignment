@@ -2,6 +2,8 @@ package com.shaikhabdulgani.moviedb.screens.detail.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -10,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.shaikhabdulgani.moviedb.ui.theme.spacing
 
@@ -36,4 +39,13 @@ fun TextWithStartIcon(
             color = color,
         )
     }
+}
+
+@Preview
+@Composable
+private fun TextWithStartIconPrev() {
+    TextWithStartIcon(
+        imageVector = Icons.Outlined.DateRange,
+        text = "Date"
+    )
 }

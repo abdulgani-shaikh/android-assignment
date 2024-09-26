@@ -23,3 +23,4 @@ rootProject.name = "MovieDB"
 include(":presentation")
 include(":domain")
 include(":data")
+include(":common")

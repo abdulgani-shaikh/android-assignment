@@ -1,7 +1,11 @@
 package com.shaikhabdulgani.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.shaikhabdulgani.data.mapper.toMovie
 import com.shaikhabdulgani.data.mapper.toMovieDetail
+import com.shaikhabdulgani.data.source.mediator.MoviePagingSource
 import com.shaikhabdulgani.data.source.remote.MovieService
 import com.shaikhabdulgani.domain.model.Movie
 import com.shaikhabdulgani.domain.model.MovieDetail
@@ -12,10 +16,13 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(
     private val api: MovieService
 ) : MovieRepository, BaseRepository() {
-    override suspend fun getMovies(): Resource<List<Movie>> {
-        return execute {
-            api.getMovies().results.map { it.toMovie() }
-        }
+    override suspend fun getMovies(): Pager<Int, Movie> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, prefetchDistance = 2),
+            pagingSourceFactory = {
+                MoviePagingSource(api)
+            }
+        )
     }
 
     override suspend fun getMovieById(id: Int): Resource<MovieDetail> {

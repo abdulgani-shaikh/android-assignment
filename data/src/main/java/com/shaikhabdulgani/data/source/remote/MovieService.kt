@@ -4,6 +4,7 @@ import com.shaikhabdulgani.data.source.remote.dto.GetMovieDetailDto
 import com.shaikhabdulgani.data.source.remote.dto.GetMovieListResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieService {
 
@@ -13,6 +14,8 @@ interface MovieService {
     ): GetMovieDetailDto
 
     @GET("/3/movie/popular")
-    suspend fun getMovies(): GetMovieListResponseModel
+    suspend fun getMovies(
+        @Query("page") pageNumber: Int
+    ): GetMovieListResponseModel
 
 }

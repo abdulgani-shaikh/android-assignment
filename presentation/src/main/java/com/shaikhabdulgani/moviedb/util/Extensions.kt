@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import com.shaikhabdulgani.domain.model.Movie
+import com.shaikhabdulgani.domain.model.MovieDetail
 
 fun Modifier.shimmer(
     backgroundColor: Color = Color(0xFFA0A0A0),
@@ -63,9 +65,33 @@ fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
 }
 
 fun String.getYear(): String {
-    if (length > 4) {
+    if (length >= 4) {
         return substring(0, 4)
     } else {
         return "NA"
     }
 }
+
+val emptyMovieDetail = MovieDetail(
+    id = 0,
+    name = "",
+    posterPath = "",
+    backdropPath = "",
+    releaseDate = "",
+    runtime = "",
+    category = emptyList(),
+    description = ""
+)
+
+val dummyMovieDetail = MovieDetail(
+    id = 0,
+    name = "Dummy",
+    posterPath = "/58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg",
+    backdropPath = "/58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg",
+    releaseDate = "2021",
+    runtime = "123",
+    category = listOf("Horror", "Comedy"),
+    description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n"
+)
+
+val dummyMovie = Movie(1, "Movie Name", "/58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg")

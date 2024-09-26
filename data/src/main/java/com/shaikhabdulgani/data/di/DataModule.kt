@@ -27,7 +27,7 @@ object DataModule {
                 OkHttpClient
                     .Builder()
                     .addNetworkInterceptor(AuthInterceptor(BuildConfig.API_KEY))
-                    .build(),
+                    .build()
             )
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -42,10 +42,10 @@ object DataModule {
         )
     }
 
-    @Provides
-    @Singleton
-    fun provideMovieRepository(movieService: MovieService): MovieRepository =
-        MovieRepositoryImpl(movieService)
+//    @Provides
+//    @Singleton
+//    fun provideMovieRepository(movieService: MovieService): MovieRepository =
+//        MovieRepositoryImpl(movieService)
 
 }
 

@@ -12,16 +12,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.moviedb.screens.detail.component.DetailTopHalf
 import com.shaikhabdulgani.moviedb.screens.detail.component.MovieCategoryRow
 import com.shaikhabdulgani.moviedb.screens.detail.component.ThreeColDetail
@@ -30,17 +27,18 @@ import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
 
 @Composable
 fun DetailScreen(
-    controller: NavHostController,
+    onBackClick: () -> Unit,
     id: Int,
     viewModel: DetailScreenViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val sizing = LocalSizing.current
     val spacing = LocalSpacing.current
-    val movie = viewModel.movies.collectAsStateWithLifecycle()
-    LaunchedEffect(context, id) {
-        viewModel.getMovie(id)
+    val movie by viewModel.movies.collectAsStateWithLifecycle()
+
+    LaunchedEffect(id) {
+        viewModel.onEvent(DetailScreenEvent.GetDetail(id))
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,40 +50,32 @@ fun DetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(sizing.backDropHeight),
-            movie = movie.value,
-            onBackClick = {
-                controller.navigateUp()
-            }
+            movie = movie,
+            onBackClick = onBackClick
         )
 
         ThreeColDetail(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            movie = movie.value
+            category = if (movie.category.isNotEmpty()) movie.category[0] else "",
+            runtime = movie.runtime,
+            date = movie.releaseDate
         )
 
         Text(
-            text = movie.value.description,
+            text = movie.description,
             modifier = Modifier.padding(horizontal = spacing.default)
         )
 
-        MovieCategoryRow(movie.value)
+        MovieCategoryRow(
+            modifier = Modifier.padding(horizontal = spacing.default),
+            category = movie.category
+        )
     }
 }
-
-val dummyDetailData = MovieDetail(
-    id = 0,
-    name = "",
-    posterPath = "",
-    backdropPath = "",
-    releaseDate = "",
-    runtime = "",
-    category = emptyList(),
-    description = ""
-)
 
 @Preview
 @Composable
 private fun DetailScreenPrev() {
-    DetailScreen(controller = rememberNavController(), id = 0)
+    DetailScreen({ }, id = 957452)
 }
