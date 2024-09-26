@@ -1,5 +1,6 @@
 package com.shaikhabdulgani.moviedb.screens.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -24,6 +26,7 @@ import com.shaikhabdulgani.moviedb.screens.detail.component.MovieCategoryRow
 import com.shaikhabdulgani.moviedb.screens.detail.component.ThreeColDetail
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSizing
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailScreen(
@@ -33,10 +36,19 @@ fun DetailScreen(
 ) {
     val sizing = LocalSizing.current
     val spacing = LocalSpacing.current
+    val context = LocalContext.current
+
     val movie by viewModel.movies.collectAsStateWithLifecycle()
 
     LaunchedEffect(id) {
         viewModel.onEvent(DetailScreenEvent.GetDetail(id))
+        viewModel.userEvent.collectLatest {
+            when(it){
+                is UserEvent.Error -> {
+                    Toast.makeText(context, it.error.asString(context), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     Column(

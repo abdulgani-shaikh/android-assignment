@@ -2,11 +2,11 @@ package com.shaikhabdulgani.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import com.shaikhabdulgani.data.mapper.toMovie
 import com.shaikhabdulgani.data.mapper.toMovieDetail
 import com.shaikhabdulgani.data.source.mediator.MoviePagingSource
 import com.shaikhabdulgani.data.source.remote.MovieService
+import com.shaikhabdulgani.domain.error.DataError
+import com.shaikhabdulgani.domain.error.RootError
 import com.shaikhabdulgani.domain.model.Movie
 import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.domain.repository.MovieRepository
@@ -25,7 +25,7 @@ class MovieRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getMovieById(id: Int): Resource<MovieDetail> {
+    override suspend fun getMovieById(id: Int): Resource<MovieDetail, RootError> {
         return execute {
             api.getMovie(id).also { println(it) }.toMovieDetail()
         }

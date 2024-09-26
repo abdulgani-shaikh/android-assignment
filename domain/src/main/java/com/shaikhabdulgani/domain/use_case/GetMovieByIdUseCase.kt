@@ -1,6 +1,8 @@
 package com.shaikhabdulgani.domain.use_case
 
 import com.shaikhabdulgani.domain.base.BaseUseCase
+import com.shaikhabdulgani.domain.error.DataError
+import com.shaikhabdulgani.domain.error.RootError
 import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.domain.repository.MovieRepository
 import com.shaikhabdulgani.domain.util.Resource
@@ -11,7 +13,7 @@ import javax.inject.Inject
 
 class GetMovieByIdUseCase @Inject constructor(
     private val movieRepository: MovieRepository
-) : BaseUseCase<Int, Resource<MovieDetail>>() {
+) : BaseUseCase<Int, Resource<MovieDetail,RootError>>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
