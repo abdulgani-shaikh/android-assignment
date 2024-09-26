@@ -1,11 +1,10 @@
 package com.shaikhabdulgani.moviedb.util
 
 import com.shaikhabdulgani.domain.error.DataError
-import com.shaikhabdulgani.domain.error.RootError
 import com.shaikhabdulgani.domain.util.Resource
 import com.shaikhabdulgani.moviedb.R
 
-fun RootError.asUiText(): UiText {
+fun DataError.asUiText(): UiText {
     return when (this) {
         DataError.Network.REQUEST_TIMEOUT -> UiText.StringResource(
             R.string.error_request_timeout

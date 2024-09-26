@@ -3,7 +3,6 @@
     <string name="home_title">Latest Movies</string>
     <string name="category_s">Category(s)</string>
     <string name="back">Back</string>
-    <string name="no_data_available">No data available</string>
     <string name="mins_args">%1$s mins</string>
 
     <string name="error_unknown">An unknown error occurred.</string>

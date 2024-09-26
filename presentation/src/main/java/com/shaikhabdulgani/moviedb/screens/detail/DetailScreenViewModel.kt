@@ -6,7 +6,7 @@ import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.domain.use_case.GetMovieByIdUseCase
 import com.shaikhabdulgani.domain.util.Resource
 import com.shaikhabdulgani.moviedb.util.UiText
-import com.shaikhabdulgani.moviedb.util.asUiText
+import com.shaikhabdulgani.moviedb.util.asErrorUiText
 import com.shaikhabdulgani.moviedb.util.emptyMovieDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -42,7 +42,7 @@ class DetailScreenViewModel @Inject constructor(
             .collect { resource ->
                 when (resource) {
                     is Resource.Error -> {
-                        _userEvent.emit(UserEvent.Error(resource.error.asUiText()))
+                        _userEvent.emit(UserEvent.Error(resource.asErrorUiText()))
                     }
 
                     is Resource.Success -> {

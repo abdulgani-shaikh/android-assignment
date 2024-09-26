@@ -1,10 +1,8 @@
 package com.shaikhabdulgani.data.di
 
 import com.shaikhabdulgani.data.BuildConfig
-import com.shaikhabdulgani.data.repository.MovieRepositoryImpl
 import com.shaikhabdulgani.data.source.remote.MovieService
 import com.shaikhabdulgani.data.util.AuthInterceptor
-import com.shaikhabdulgani.domain.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,11 +39,6 @@ object DataModule {
             MovieService::class.java,
         )
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideMovieRepository(movieService: MovieService): MovieRepository =
-//        MovieRepositoryImpl(movieService)
 
 }
 

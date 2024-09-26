@@ -2,14 +2,16 @@ package com.shaikhabdulgani.data.source.mediator
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.shaikhabdulgani.data.mapper.toMovie
+import com.shaikhabdulgani.data.mapper.Mapper
 import com.shaikhabdulgani.data.source.remote.MovieService
+import com.shaikhabdulgani.data.source.remote.dto.MovieDto
 import com.shaikhabdulgani.domain.model.Movie
 import retrofit2.HttpException
 import java.io.IOException
 
 class MoviePagingSource(
     private val movieService: MovieService,
+    private val movieMapper: Mapper<MovieDto,Movie>
 ) : PagingSource<Int, Movie>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
@@ -19,9 +21,9 @@ class MoviePagingSource(
                 pageNumber = currentPage
             )
             LoadResult.Page(
-                data = movies.results.map { it.toMovie() },
+                data = movies.results.map { movieMapper.map(it) },
                 prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (movies.results.isEmpty()) null else movies.page!! + 1
+                nextKey = if (movies.results.isEmpty()) null else movies.page + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
