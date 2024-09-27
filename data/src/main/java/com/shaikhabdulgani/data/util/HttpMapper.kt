@@ -12,7 +12,7 @@ fun mapHttpCodeToNetworkError(httpCode: Int): DataError.Network {
         500 -> DataError.Network.SERVER_ERROR
         400 -> DataError.Network.SERIALIZATION
         520 -> DataError.Network.UNKNOWN
-        0 -> DataError.Network.NO_INTERNET
+        0 -> DataError.Network.SOMETHING_WENT_WRONG
         else -> DataError.Network.UNKNOWN
     }
 }

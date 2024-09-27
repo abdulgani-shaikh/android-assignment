@@ -15,5 +15,6 @@
     <string name="error_server_error">A server error occurred. Please try again later.</string>
     <string name="error_serialization">There was an error processing the data.</string>
     <string name="error_data_unknown">An unknown error occurred.</string>
+    <string name="error_something_went_wrong">Something went wrong</string>
 
 </resources>

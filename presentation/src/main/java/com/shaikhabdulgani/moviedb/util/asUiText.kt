@@ -46,6 +46,8 @@ fun DataError.asUiText(): UiText {
         DataError.Unknown -> UiText.StringResource(
             R.string.error_unknown
         )
+
+        DataError.Network.SOMETHING_WENT_WRONG -> UiText.StringResource(R.string.error_something_went_wrong)
     }
 }
 

@@ -11,6 +11,7 @@ sealed interface DataError : RootError {
         SERVER_ERROR,
         SERIALIZATION,
         UNKNOWN,
+        SOMETHING_WENT_WRONG
     }
 
     enum class Local : DataError {

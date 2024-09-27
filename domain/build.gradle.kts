@@ -43,6 +43,18 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
+    //turbine
+    testImplementation(libs.turbine)
+    testImplementation( "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
+
+    //truth
+    testImplementation(libs.truth)
+
     //hilt android
     implementation(libs.androidx.hilt.compose)
     kapt(libs.androidx.hilt.compiler)

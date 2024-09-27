@@ -26,6 +26,7 @@ import com.shaikhabdulgani.moviedb.screens.detail.component.MovieCategoryRow
 import com.shaikhabdulgani.moviedb.screens.detail.component.ThreeColDetail
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSizing
 import com.shaikhabdulgani.moviedb.ui.theme.LocalSpacing
+import com.shaikhabdulgani.moviedb.util.emptyMovieDetail
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -38,7 +39,7 @@ fun DetailScreen(
     val spacing = LocalSpacing.current
     val context = LocalContext.current
 
-    val movie by viewModel.movies.collectAsStateWithLifecycle()
+    val movie by viewModel.movies.collectAsStateWithLifecycle(emptyMovieDetail)
 
     LaunchedEffect(id) {
         viewModel.onEvent(DetailScreenEvent.GetDetail(id))

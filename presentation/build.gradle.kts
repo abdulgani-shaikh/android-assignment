@@ -92,4 +92,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.androidx.core.testing)
+
+    //turbine
+    testImplementation(libs.turbine)
+    testImplementation( "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    
+    //truth
+    testImplementation(libs.truth)
 }
