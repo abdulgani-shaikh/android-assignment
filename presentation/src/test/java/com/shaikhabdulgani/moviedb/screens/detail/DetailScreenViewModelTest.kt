@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -71,7 +70,6 @@ class DetailScreenViewModelTest {
             val item = awaitItem()
             assert(dummyMovieDetail.id == item.id)
             viewModel.onEvent(DetailScreenEvent.GetDetail(movieId))
-            runCurrent()
             val result = awaitItem()
             println(result)
             assert(result.id == expected.data.id)

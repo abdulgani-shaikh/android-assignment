@@ -1,4 +1,4 @@
-package com.shaikhabdulgani.domain.use_case
+package com.shaikhabdulgani.domain.use_case.details
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.shaikhabdulgani.domain.error.DataError
 import com.shaikhabdulgani.domain.model.MovieDetail
 import com.shaikhabdulgani.domain.repository.MovieRepository
+import com.shaikhabdulgani.domain.use_case.GetMovieByIdUseCase
 import com.shaikhabdulgani.domain.util.Resource
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -32,18 +33,8 @@ class GetMovieByIdUseCaseTest {
 
     @Test
     fun `provide valid id and get success as result`() = runTest {
-        val movieId = 1
-        val dummyMovieDetail = MovieDetail(
-            id = movieId,
-            name = "Dummy",
-            posterPath = "/58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg",
-            backdropPath = "/58QT4cPJ2u2TqWZkterDq9q4yxQ.jpg",
-            releaseDate = "2021",
-            runtime = "123",
-            category = listOf("Horror", "Comedy"),
-            description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n"
-        )
-
+        val dummyMovieDetail = GetMovieByIdUseCaseFactory.getMovieDetailsResponse()
+        val movieId = dummyMovieDetail.id
         val expected = Resource.Success<MovieDetail, DataError>(dummyMovieDetail)
         `when`(repo.getMovieById(movieId)).thenReturn(expected)
         turbineScope {
