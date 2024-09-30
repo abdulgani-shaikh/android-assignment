@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.shaikhabdulgani.moviedb"
+    namespace = "com.example.moviedb"
     compileSdk = 34
 
     defaultConfig {
