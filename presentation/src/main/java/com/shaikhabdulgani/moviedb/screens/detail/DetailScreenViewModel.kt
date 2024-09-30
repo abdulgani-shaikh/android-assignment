@@ -27,13 +27,9 @@ class DetailScreenViewModel @Inject constructor(
     private val _userEvent: MutableSharedFlow<UserEvent> = MutableSharedFlow()
     val userEvent: SharedFlow<UserEvent> get() = _userEvent
 
-    fun onEvent(event: DetailScreenEvent) {
-        viewModelScope.launch {
-            when (event) {
-                is DetailScreenEvent.GetDetail -> {
-                    getMovie(event.id)
-                }
-            }
+    fun onEvent(event: DetailScreenEvent) = viewModelScope.launch {
+        when (event) {
+            is DetailScreenEvent.GetDetail -> getMovie(event.id)
         }
     }
 
@@ -41,13 +37,8 @@ class DetailScreenViewModel @Inject constructor(
         getMovieById(id)
             .collect { resource ->
                 when (resource) {
-                    is Resource.Error -> {
-                        _userEvent.emit(UserEvent.Error(resource.asErrorUiText()))
-                    }
-
-                    is Resource.Success -> {
-                        _movies.emit(resource.data)
-                    }
+                    is Resource.Error ->_userEvent.emit(UserEvent.Error(resource.asErrorUiText()))
+                    is Resource.Success ->_movies.emit(resource.data)
                 }
             }
     }

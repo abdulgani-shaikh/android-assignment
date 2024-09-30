@@ -17,6 +17,7 @@ class HomeViewModelTest {
 
     @Before
     fun setUp() {
+       // useCase=GetMovieListUseCase()
         viewmodel = HomeViewModel(useCase)
     }
 
